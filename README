@@ -23,11 +23,11 @@ gcc ftrace.c -o ftrace
 
 USAGE:
 
-ftrace [-p <pid>] [-Stsve] <prog> <args>
+ftrace [-p <pid>] [-SGtsve] <prog> <args>
 
 ARCHITECTURE: 
 
-For 32bit executables set FTRACE_ARCH=32, it defaults to 64.
+For 32bit executables set FTRACE_ARCH=32 or use flag G, it defaults to 64.
 
 
 OPTIONS: 
@@ -46,6 +46,8 @@ It will detect pointers that are within the range of the text segment, data segm
 [-S] Show function calls that don't have a matching symbol (For stripped binaries)
 
 [-C] Complete control flow analysis (branch instructions other than call)
+
+[-G] Arch will set to 32 if FTRACE_ARCH is not present
 
 EXAMPLE:
 
