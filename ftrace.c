@@ -1678,7 +1678,7 @@ int main(int argc, char **argv, char **envp)
 
 	if (argc < 2) {
 usage:
-		printf("Usage: %s [-p <pid>] [-Sstve] <prog>\n", argv[0]);
+		printf("Usage: %s [-p <pid>] [-SGstve] <prog>\n", argv[0]);
 		printf("[-p] Trace by PID\n");
 		printf("[-t] Type detection of function args\n");
 		printf("[-s] Print string values\n");
@@ -1687,6 +1687,7 @@ usage:
 		printf("[-e] Misc. ELF info. (Symbols,Dependencies)\n");
 		printf("[-S] Show function calls with stripped symbols\n");
 		printf("[-C] Complete control flow analysis\n");
+		printf("[-G] Arch 32 if FTRACE_ARCH is not present\n");
 		exit(0);
 	}
 	
@@ -1736,7 +1737,7 @@ usage:
 	if (skip_getopt)
 		goto begin;
 
-	while ((opt = getopt(argc, argv, "CSrhtvep:s")) != -1) {
+	while ((opt = getopt(argc, argv, "CSGrhtvep:s")) != -1) {
 		switch(opt) {
 			case 'S':
 				opts.stripped++;
@@ -1763,13 +1764,18 @@ usage:
 			case 'C':
 				opts.cflow++;
 				break;
+			case 'G':
+				if (arch == NULL) {
+					opts.arch = 32;
+				}
+				break;
 			case 'h':
 				goto usage;
 			default:
 				printf("Unknown option\n");
 				exit(0);
 		}
-	} 
+	}
 	
 begin:
 	if (opts.verbose) {
